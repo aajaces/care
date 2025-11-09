@@ -1,6 +1,5 @@
 /**
  * YAML question loader with validation
- * Replaces care_eval/loader.py
  */
 
 import { readFileSync } from 'fs';

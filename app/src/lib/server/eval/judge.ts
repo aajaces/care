@@ -1,6 +1,5 @@
 /**
  * LLM-as-judge using Claude Opus 4.1 via OpenRouter
- * Replaces care_eval/judge.py
  */
 
 import { OpenRouterClient } from './openrouter';

@@ -48,7 +48,7 @@
 			<!-- Links Section -->
 			<div class="flex items-center justify-center gap-4 mb-12 flex-wrap">
 				<a
-					href="https://github.com/ariata-os/care"
+					href="https://github.com/aajaces/cadre"
 					target="_blank"
 					class="inline-flex items-center gap-1.5 px-4 py-2 text-sm bg-black text-white rounded-lg hover:bg-gray-800 transition-colors no-underline font-light"
 				>

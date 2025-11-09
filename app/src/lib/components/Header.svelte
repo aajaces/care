@@ -75,7 +75,7 @@
 			<!-- Right: CTA buttons -->
 			<div class="flex w-full justify-end space-x-2">
 				<a
-					href="https://github.com/ariata-os/care"
+					href="https://github.com/aajaces/cadre"
 					target="_blank"
 					class="inline-flex items-center gap-2 font-serif text-[var(--color-charcoal)] hover:text-blue-950 transition-colors no-underline font-light"
 				>
@@ -144,7 +144,7 @@
 			>
 			<a
 				onclick={() => (mobileMenuOpen = false)}
-				href="https://github.com/ariata-os/care"
+				href="https://github.com/aajaces/cadre"
 				target="_blank"
 				class="text-[var(--color-cream)] hover:text-white transition-colors no-underline font-light">GitHub</a
 			>

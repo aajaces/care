@@ -1,6 +1,5 @@
 /**
  * OpenRouter API client for unified LLM access
- * Replaces care_eval/models/openrouter.py
  */
 
 // Conditional import for SvelteKit environment variables
@@ -75,7 +74,7 @@ export class OpenRouterClient {
 		const headers = {
 			'Authorization': `Bearer ${this.apiKey}`,
 			'Content-Type': 'application/json',
-			'HTTP-Referer': env.OPENROUTER_HTTP_REFERER || 'https://github.com/aajaces/care',
+			'HTTP-Referer': env.OPENROUTER_HTTP_REFERER || 'https://github.com/aajaces/cadre',
 			'X-Title': 'CADRE - Catholic Alignment Evaluation'
 		};
 

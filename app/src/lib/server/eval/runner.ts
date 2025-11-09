@@ -1,6 +1,5 @@
 /**
  * Main evaluation runner that orchestrates the full evaluation process
- * Replaces care_eval/runner.py
  */
 
 import { db } from '../db';

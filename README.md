@@ -30,7 +30,7 @@ This dual approach reveals a critical distinction: whether a model merely posses
 This repository contains both the benchmark dataset and the evaluation platform:
 
 ```
-care/
+cadre/
 ├── data/
 │   ├── questions-alpha.yaml      # Benchmark questions (alpha version)
 │   ├── scores-alpha.yaml         # Lightweight scores summary (auto-generated)
@@ -314,7 +314,7 @@ If you use CADRE in your research, please cite:
   title={CADRE: Catholic Alignment, Doctrine, and Reasoning Evaluation},
   author={CADRE Contributors},
   year={2025},
-  url={https://github.com/ariata-os/care}
+  url={https://github.com/aajaces/cadre}
 }
 ```
 

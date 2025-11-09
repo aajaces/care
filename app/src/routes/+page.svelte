@@ -15,6 +15,96 @@
 	let { data } = $props();
 </script>
 
+<svelte:head>
+	<!-- Primary Meta Tags -->
+	<title>Catholic Benchmark: CADRE - Catholic Alignment, Doctrine, and Reasoning Evaluation</title>
+	<meta name="title" content="Catholic Benchmark: CADRE - Catholic Alignment, Doctrine, and Reasoning Evaluation" />
+	<meta name="description" content="Benchmark evaluating AI language models on Catholic teaching across Creed, Sacraments, Moral Life, and Prayer. View model leaderboard and results." />
+	<meta name="keywords" content="Catholic, AI, Benchmark, Evaluation, Language Models, Teaching, Doctrine, Catechism, Alignment, LLM, CADRE" />
+	<meta name="author" content="CADRE Contributors" />
+	<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+	<link rel="canonical" href="https://www.catholicalignment.com/" />
+
+	<!-- Theme Color -->
+	<meta name="theme-color" content="#741b1b" />
+
+	<!-- Open Graph / Facebook -->
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://www.catholicalignment.com/" />
+	<meta property="og:title" content="Catholic Benchmark: CADRE - AI Model Alignment Evaluation" />
+	<meta property="og:description" content="Evaluate AI language models on understanding Catholic teaching across doctrine, sacraments, moral reasoning, and prayer." />
+	<meta property="og:image" content="https://www.catholicalignment.com/og-image.png" />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
+	<meta property="og:site_name" content="CADRE - Catholic Alignment Benchmark" />
+	<meta property="og:locale" content="en_US" />
+
+	<!-- Twitter -->
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:url" content="https://www.catholicalignment.com/" />
+	<meta name="twitter:title" content="Catholic Benchmark: CADRE - AI Model Alignment Evaluation" />
+	<meta name="twitter:description" content="Evaluate AI language models on understanding Catholic teaching across 4 pillars." />
+	<meta name="twitter:image" content="https://www.catholicalignment.com/og-image.png" />
+
+	<!-- Structured Data - Organization -->
+	<script type="application/ld+json">
+		{
+			"@context": "https://schema.org",
+			"@type": "Organization",
+			"name": "CADRE",
+			"alternateName": "Catholic Alignment, Doctrine, and Reasoning Evaluation",
+			"url": "https://www.catholicalignment.com",
+			"logo": "https://www.catholicalignment.com/favicon.svg",
+			"description": "An open benchmark evaluating AI language models on alignment with Catholic teaching",
+			"sameAs": [
+				"https://github.com/aajaces/cadre"
+			]
+		}
+	</script>
+
+	<!-- Structured Data - Dataset -->
+	<script type="application/ld+json">
+		{
+			"@context": "https://schema.org",
+			"@type": "Dataset",
+			"name": "CADRE: Catholic Alignment, Doctrine, and Reasoning Evaluation",
+			"description": "A comprehensive benchmark dataset for evaluating AI language models on their alignment with Catholic teaching across 4 pillars: Creed, Sacraments, Moral Life, and Prayer.",
+			"url": "https://www.catholicalignment.com",
+			"version": "alpha",
+			"isAccessibleForFree": true,
+			"distribution": {
+				"@type": "DataDownload",
+				"encodingFormat": "YAML",
+				"contentUrl": "https://github.com/aajaces/cadre"
+			},
+			"keywords": "Catholic teaching, AI evaluation, benchmark, language models, doctrine, catechism",
+			"spatialCoverage": {
+				"@type": "Place",
+				"name": "Worldwide"
+			},
+			"temporalCoverage": "2025-01-01/P1Y",
+			"creator": {
+				"@type": "Organization",
+				"name": "CADRE Contributors"
+			},
+			"includedInDataCatalog": {
+				"@type": "DataCatalog",
+				"name": "AI Benchmarks and Datasets"
+			}
+		}
+	</script>
+
+	<!-- Structured Data - WebSite -->
+	<script type="application/ld+json">
+		{
+			"@context": "https://schema.org",
+			"@type": "WebSite",
+			"name": "CADRE",
+			"url": "https://www.catholicalignment.com"
+		}
+	</script>
+</svelte:head>
+
 <div class="min-h-screen">
 	<!-- Hero Section -->
 	<section class="py-12 px-6">

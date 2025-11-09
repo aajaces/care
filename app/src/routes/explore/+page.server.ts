@@ -1,34 +1,85 @@
 import type { PageServerLoad } from './$types';
-import { EvaluationsLoader } from '$lib/server/eval/evaluations-loader';
-import { QuestionLoader } from '$lib/server/eval/loader';
-import { existsSync } from 'fs';
-import { fileURLToPath } from 'url';
-import { dirname, resolve } from 'path';
+import { parse as parseYaml } from 'yaml';
+import { z } from 'zod';
+import type { Question } from '$lib/server/eval/types';
 
-// Get the current file's directory
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+// Import data files using Vite's raw import (ensures they're bundled in build)
+import questionsRaw from '$lib/data/questions-alpha.yaml?raw';
+import claude3HaikuRaw from '$lib/data/results/claude-3-haiku-alpha.yaml?raw';
+import gpt4Raw from '$lib/data/results/gpt-4-alpha.yaml?raw';
+import hermes4Raw from '$lib/data/results/hermes-4-405b-alpha.yaml?raw';
+import magisterium1Raw from '$lib/data/results/magisterium-1-alpha.yaml?raw';
 
-// Paths to data files - using SvelteKit project structure
-const RESULTS_DIR = resolve(__dirname, '../../lib/data/results');
-const QUESTIONS_PATH = resolve(__dirname, '../../lib/data/questions-alpha.yaml');
+// Schema for validation (simplified from EvaluationsLoader)
+const EvaluationSchema = z.object({
+	model: z.string(),
+	model_version: z.string(),
+	provider: z.string(),
+	evaluated_at: z.string(),
+	total_score: z.union([z.number(), z.string()]).transform((val) =>
+		typeof val === 'string' ? parseFloat(val) : val
+	),
+	weighted_score: z.union([z.number(), z.string()]).transform((val) =>
+		typeof val === 'string' ? parseFloat(val) : val
+	).optional(),
+	pillar_scores: z.object({
+		pillar_1: z.union([z.number(), z.string()]).transform((val) =>
+			typeof val === 'string' ? parseFloat(val) : val
+		),
+		pillar_2: z.union([z.number(), z.string()]).transform((val) =>
+			typeof val === 'string' ? parseFloat(val) : val
+		),
+		pillar_3: z.union([z.number(), z.string()]).transform((val) =>
+			typeof val === 'string' ? parseFloat(val) : val
+		),
+		pillar_4: z.union([z.number(), z.string()]).transform((val) =>
+			typeof val === 'string' ? parseFloat(val) : val
+		)
+	}),
+	questions: z.array(z.object({
+		id: z.string(),
+		pillar_id: z.number(),
+		truth_hierarchy: z.number(),
+		weight: z.union([z.number(), z.string()]).transform((val) =>
+			typeof val === 'string' ? parseFloat(val) : val
+		),
+		variant: z.string().optional(),
+		response: z.string(),
+		score: z.union([z.number(), z.string()]).transform((val) =>
+			typeof val === 'string' ? parseFloat(val) : val
+		),
+		max_score: z.union([z.number(), z.string()]).transform((val) =>
+			typeof val === 'string' ? parseFloat(val) : val
+		),
+		rubric_breakdown: z.record(z.string(), z.object({
+			score: z.number(),
+			max: z.number(),
+			feedback: z.string().optional()
+		})).optional(),
+		judge_reasoning: z.string().optional(),
+		evaluated_at: z.string().optional()
+	}))
+});
 
 export const load: PageServerLoad = async () => {
-	// Load evaluations from results directory
-	let evaluationsData;
+	// Parse questions
+	const questionsData = parseYaml(questionsRaw);
+	const questions = questionsData.questions as Question[];
 
-	if (existsSync(RESULTS_DIR)) {
-		evaluationsData = EvaluationsLoader.loadAll(RESULTS_DIR, 'alpha');
-	} else {
-		evaluationsData = {
-			version: 'alpha',
-			last_updated: new Date().toISOString(),
-			benchmark_questions: 'questions-alpha.yaml',
-			evaluations: []
-		};
-	}
+	// Parse all evaluation files
+	const evaluations = [
+		EvaluationSchema.parse(parseYaml(claude3HaikuRaw)),
+		EvaluationSchema.parse(parseYaml(gpt4Raw)),
+		EvaluationSchema.parse(parseYaml(hermes4Raw)),
+		EvaluationSchema.parse(parseYaml(magisterium1Raw))
+	];
 
-	const questions = QuestionLoader.load(QUESTIONS_PATH);
+	const evaluationsData = {
+		version: 'alpha',
+		last_updated: new Date().toISOString(),
+		benchmark_questions: 'questions-alpha.yaml',
+		evaluations
+	};
 
 	// Transform data for the explorer
 	const results = evaluationsData.evaluations.flatMap((evaluation) =>

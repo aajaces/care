@@ -1,60 +1,110 @@
 import type { PageServerLoad } from './$types';
 import { pillars } from '$lib/server/db/schema';
-import { EvaluationsLoader } from '$lib/server/eval/evaluations-loader';
-import { ScoresLoader } from '$lib/server/eval/scores-loader';
-import { CostsLoader } from '$lib/server/eval/costs-loader';
+import { parse as parseYaml } from 'yaml';
+import { z } from 'zod';
 import { transformModelData } from '$lib/data/model-data';
-import { existsSync } from 'fs';
-import { fileURLToPath } from 'url';
-import { dirname, resolve } from 'path';
 
-// Get the current file's directory
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+// Import data files using Vite's raw import (ensures they're bundled in build)
+import scoresRaw from '$lib/data/scores-alpha.yaml?raw';
+import costsRaw from '$lib/data/costs.yaml?raw';
 
-// Paths for evaluation results - using SvelteKit project structure
-const SCORES_SUMMARY_PATH = resolve(__dirname, '../lib/data/scores-alpha.yaml');
-const COSTS_PATH = resolve(__dirname, '../lib/data/costs.yaml');
-const RESULTS_DIR = resolve(__dirname, '../lib/data/results');
+// Schema for scores summary
+const ModelSummarySchema = z.object({
+	rank: z.number(),
+	model_id: z.string(),
+	model_name: z.string(),
+	version: z.string(),
+	provider: z.string(),
+	overall_score: z.union([z.number(), z.string()]).transform((val) =>
+		typeof val === 'string' ? parseFloat(val) : val
+	),
+	weighted_score: z.union([z.number(), z.string()]).transform((val) =>
+		typeof val === 'string' ? parseFloat(val) : val
+	),
+	consistency_score: z.union([z.number(), z.string()]).transform((val) =>
+		typeof val === 'string' ? parseFloat(val) : val
+	).optional(),
+	total_responses: z.number(),
+	evaluated_at: z.string(),
+	pillar_scores: z.array(z.object({
+		pillar_id: z.number(),
+		score: z.union([z.number(), z.string()]).transform((val) =>
+			typeof val === 'string' ? parseFloat(val) : val
+		),
+		question_count: z.number()
+	}))
+});
+
+const ScoresSummarySchema = z.object({
+	version: z.string(),
+	last_updated: z.string(),
+	generated_at: z.string().optional(),
+	source_files_count: z.number().optional(),
+	leaderboard: z.array(z.object({
+		rank: z.number(),
+		model_id: z.string(),
+		name: z.string(),
+		version: z.string(),
+		provider: z.string(),
+		tested_at: z.string(),
+		overall_score: z.union([z.number(), z.string()]).transform((val) =>
+			typeof val === 'string' ? parseFloat(val) : val
+		),
+		weighted_score: z.union([z.number(), z.string()]).transform((val) =>
+			typeof val === 'string' ? parseFloat(val) : val
+		),
+		consistency_score: z.union([z.number(), z.string()]).transform((val) =>
+			typeof val === 'string' ? parseFloat(val) : val
+		).optional(),
+		total_responses: z.number(),
+		pillar_scores: z.record(z.string(), z.object({
+			score: z.union([z.number(), z.string()]).transform((val) =>
+				typeof val === 'string' ? parseFloat(val) : val
+			),
+			question_count: z.number()
+		})),
+		result_file: z.string().optional()
+	}))
+});
+
+const CostsSchema = z.object({
+	version: z.string(),
+	model_costs: z.array(z.object({
+		model_id: z.string(),
+		cost_per_1m_input_tokens: z.union([z.number(), z.string()]).transform((val) =>
+			typeof val === 'string' ? parseFloat(val) : val
+		),
+		cost_per_1m_output_tokens: z.union([z.number(), z.string()]).transform((val) =>
+			typeof val === 'string' ? parseFloat(val) : val
+		)
+	}))
+});
 
 export const load: PageServerLoad = async () => {
-	// Load leaderboard data from YAML files (source of truth for public leaderboard)
-	// Try fast path (scores summary) first, then fall back to full evaluation loading
-	let leaderboard;
-	let allPillarScores;
-	let scoresSummary = null;
+	// Parse scores summary (fast path)
+	const scoresSummary = ScoresSummarySchema.parse(parseYaml(scoresRaw));
 
-	if (existsSync(SCORES_SUMMARY_PATH)) {
-		// FAST PATH: Load pre-computed scores summary (3-8x faster)
-		scoresSummary = ScoresLoader.load(SCORES_SUMMARY_PATH);
-		if (scoresSummary) {
-			leaderboard = ScoresLoader.toLeaderboard(scoresSummary);
-			allPillarScores = ScoresLoader.toPillarScores(scoresSummary);
-			console.log('✓ Using fast path: scores-alpha.yaml');
-		}
-	}
+	// Convert to leaderboard format
+	const leaderboard = scoresSummary.leaderboard.map((model) => ({
+		id: model.model_id,
+		name: model.name,
+		version: model.version,
+		provider: model.provider,
+		overallScore: model.overall_score.toFixed(1),
+		weightedScore: model.weighted_score.toFixed(1),
+		totalQuestions: model.total_responses,
+		testedAt: new Date(model.tested_at)
+	}));
 
-	// Fallback to full evaluation loading
-	if (!leaderboard) {
-		console.log('⚠️  Falling back to full evaluation loading');
-		let evaluationsData;
-
-		if (existsSync(RESULTS_DIR)) {
-			// Load from results/ directory (one file per model)
-			evaluationsData = EvaluationsLoader.loadAll(RESULTS_DIR, 'alpha');
-		} else {
-			// No evaluations found
-			evaluationsData = {
-				version: 'alpha',
-				last_updated: new Date().toISOString(),
-				benchmark_questions: 'questions-alpha.yaml',
-				evaluations: []
-			};
-		}
-
-		leaderboard = EvaluationsLoader.getLeaderboard(evaluationsData);
-		allPillarScores = EvaluationsLoader.getPillarScores(evaluationsData);
-	}
+	// Convert to pillar scores format
+	const allPillarScores = scoresSummary.leaderboard.flatMap((model) =>
+		Object.entries(model.pillar_scores).map(([pillar_id, ps]) => ({
+			modelId: model.model_id,
+			pillarId: parseInt(pillar_id),
+			avgScore: ps.score.toFixed(1),
+			questionCount: ps.question_count
+		}))
+	);
 
 	// Get running evaluations from database (for live progress tracking only)
 	// Skip if DATABASE_URL not configured (e.g., in YAML-only mode)
@@ -129,14 +179,9 @@ export const load: PageServerLoad = async () => {
 	}
 
 	// Load model data for cost/performance chart
-	let modelData: any[] = [];
-	if (scoresSummary && existsSync(COSTS_PATH)) {
-		const costsData = CostsLoader.load(COSTS_PATH);
-		if (costsData) {
-			modelData = transformModelData(scoresSummary, costsData);
-			console.log(`✓ Loaded ${modelData.length} model data points for chart`);
-		}
-	}
+	const costsData = CostsSchema.parse(parseYaml(costsRaw));
+	const modelData = transformModelData(scoresSummary, costsData);
+	console.log(`✓ Loaded ${modelData.length} model data points for chart`);
 
 	return {
 		leaderboard,

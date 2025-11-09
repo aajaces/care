@@ -3,11 +3,13 @@ import { EvaluationsLoader } from '$lib/server/eval/evaluations-loader';
 import { QuestionLoader } from '$lib/server/eval/loader';
 import { resolve } from 'path';
 import { existsSync } from 'fs';
+import { env } from '$env/dynamic/private';
 
 // Paths to data files
-const RESULTS_DIR = resolve(process.cwd(), '../data/results');
-const LEGACY_EVALUATIONS_PATH = resolve(process.cwd(), '../data/evaluations-alpha.yaml');
-const QUESTIONS_PATH = resolve(process.cwd(), '../data/questions-alpha.yaml');
+// Use environment variables for production (Vercel), fallback to relative paths for local dev
+const RESULTS_DIR = env.RESULTS_DIR || resolve(process.cwd(), '../data/results');
+const LEGACY_EVALUATIONS_PATH = env.LEGACY_EVALUATIONS_PATH || resolve(process.cwd(), '../data/evaluations-alpha.yaml');
+const QUESTIONS_PATH = env.QUESTIONS_PATH || resolve(process.cwd(), '../data/questions-alpha.yaml');
 
 export const load: PageServerLoad = async () => {
 	// Load evaluations (try new multi-file structure first)

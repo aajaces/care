@@ -6,12 +6,14 @@ import { CostsLoader } from '$lib/server/eval/costs-loader';
 import { transformModelData } from '$lib/data/model-data';
 import { resolve } from 'path';
 import { existsSync } from 'fs';
+import { env } from '$env/dynamic/private';
 
 // Paths for evaluation results
-const SCORES_SUMMARY_PATH = resolve(process.cwd(), '../data/scores-alpha.yaml');
-const COSTS_PATH = resolve(process.cwd(), '../data/costs.yaml');
-const RESULTS_DIR = resolve(process.cwd(), '../data/results');
-const LEGACY_EVALUATIONS_PATH = resolve(process.cwd(), '../data/evaluations-alpha.yaml');
+// Use environment variables for production (Vercel), fallback to relative paths for local dev
+const SCORES_SUMMARY_PATH = env.SCORES_SUMMARY_PATH || resolve(process.cwd(), '../data/scores-alpha.yaml');
+const COSTS_PATH = env.COSTS_PATH || resolve(process.cwd(), '../data/costs.yaml');
+const RESULTS_DIR = env.RESULTS_DIR || resolve(process.cwd(), '../data/results');
+const LEGACY_EVALUATIONS_PATH = env.LEGACY_EVALUATIONS_PATH || resolve(process.cwd(), '../data/evaluations-alpha.yaml');
 
 export const load: PageServerLoad = async () => {
 	// Load leaderboard data from YAML files (source of truth for public leaderboard)

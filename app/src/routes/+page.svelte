@@ -56,6 +56,7 @@
 					></iconify-icon>
 					GitHub
 				</a>
+				<!-- Paper button temporarily commented out
 				<button
 					onclick={() =>
 						alert(
@@ -67,6 +68,7 @@
 					></iconify-icon>
 					Paper
 				</button>
+				-->
 				<a
 					href="/explore"
 					class="inline-flex items-center gap-1.5 px-4 py-2 text-sm text-black rounded-lg hover:bg-black hover:text-white transition-colors no-underline font-light"

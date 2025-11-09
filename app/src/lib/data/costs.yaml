@@ -469,6 +469,10 @@ model_costs:
     cost_per_1m_input_tokens: 3.000
     cost_per_1m_output_tokens: 15.000
 
+  - model_id: "claude-sonnet-4-5"
+    cost_per_1m_input_tokens: 3.000
+    cost_per_1m_output_tokens: 15.000
+
   - model_id: "claude-3-opus"
     cost_per_1m_input_tokens: 15.000
     cost_per_1m_output_tokens: 75.000

@@ -4,8 +4,8 @@
 # It's optimized for fast leaderboard loading without parsing full evaluation details.
 #
 # AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
-# Generated at: 2025-11-09T20:06:34.483Z
-# Source files: 4 evaluation(s) from data/results/
+# Generated at: 2025-11-09T21:59:15.995Z
+# Source files: 6 evaluation(s) from data/results/
 #
 # To regenerate this file:
 #   cd app && pnpm scores-summary --version alpha
@@ -14,9 +14,9 @@
 #
 
 "version": "alpha"
-"last_updated": "2025-11-09T18:50:51.870Z"
-"generated_at": "2025-11-09T20:06:34.480Z"
-"source_files_count": 4
+"last_updated": "2025-11-09T21:55:15.573Z"
+"generated_at": "2025-11-09T21:59:15.991Z"
+"source_files_count": 6
 "leaderboard":
   - "rank": 1
     "model_id": "magisterium-1-alpha"
@@ -43,6 +43,54 @@
     "total_responses": 100
     "result_file": "results/magisterium-1-alpha.yaml"
   - "rank": 2
+    "model_id": "grok-4-fast-alpha"
+    "name": "Grok 4 Fast"
+    "version": "grok-4-fast"
+    "provider": "xai"
+    "tested_at": "2025-11-09T21:46:30.009Z"
+    "overall_score": 92.41
+    "weighted_score": 92.41
+    "consistency_score": 100
+    "pillar_scores":
+      "1":
+        "score": 88.4
+        "question_count": 30
+      "2":
+        "score": 100
+        "question_count": 24
+      "3":
+        "score": 88.62
+        "question_count": 26
+      "4":
+        "score": 94.25
+        "question_count": 20
+    "total_responses": 100
+    "result_file": "results/grok-4-fast-alpha.yaml"
+  - "rank": 3
+    "model_id": "claude-sonnet-4-5-alpha"
+    "name": "Claude Sonnet 4.5"
+    "version": "claude-sonnet-4.5"
+    "provider": "anthropic"
+    "tested_at": "2025-11-09T21:55:15.573Z"
+    "overall_score": 85.91
+    "weighted_score": 85.91
+    "consistency_score": 100
+    "pillar_scores":
+      "1":
+        "score": 83.93
+        "question_count": 30
+      "2":
+        "score": 87.83
+        "question_count": 24
+      "3":
+        "score": 85.31
+        "question_count": 26
+      "4":
+        "score": 87.35
+        "question_count": 20
+    "total_responses": 100
+    "result_file": "results/claude-sonnet-4-5-alpha.yaml"
+  - "rank": 4
     "model_id": "hermes-4-405b-alpha"
     "name": "Hermes 4 405B"
     "version": "hermes-4-405b"
@@ -66,7 +114,7 @@
         "question_count": 20
     "total_responses": 100
     "result_file": "results/hermes-4-405b-alpha.yaml"
-  - "rank": 3
+  - "rank": 5
     "model_id": "claude-3-haiku-alpha"
     "name": "Claude 3 Haiku"
     "version": "claude-3-haiku"
@@ -90,7 +138,7 @@
         "question_count": 20
     "total_responses": 100
     "result_file": "results/claude-3-haiku-alpha.yaml"
-  - "rank": 4
+  - "rank": 6
     "model_id": "gpt-4-alpha"
     "name": "GPT-4"
     "version": "gpt-4"

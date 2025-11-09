@@ -6,7 +6,9 @@ import type { Question } from '$lib/server/eval/types';
 // Import data files using Vite's raw import (ensures they're bundled in build)
 import questionsRaw from '$lib/data/questions-alpha.yaml?raw';
 import claude3HaikuRaw from '$lib/data/results/claude-3-haiku-alpha.yaml?raw';
+import claudeSonnet45Raw from '$lib/data/results/claude-sonnet-4-5-alpha.yaml?raw';
 import gpt4Raw from '$lib/data/results/gpt-4-alpha.yaml?raw';
+import grok4FastRaw from '$lib/data/results/grok-4-fast-alpha.yaml?raw';
 import hermes4Raw from '$lib/data/results/hermes-4-405b-alpha.yaml?raw';
 import magisterium1Raw from '$lib/data/results/magisterium-1-alpha.yaml?raw';
 
@@ -69,7 +71,9 @@ export const load: PageServerLoad = async () => {
 	// Parse all evaluation files
 	const evaluations = [
 		EvaluationSchema.parse(parseYaml(claude3HaikuRaw)),
+		EvaluationSchema.parse(parseYaml(claudeSonnet45Raw)),
 		EvaluationSchema.parse(parseYaml(gpt4Raw)),
+		EvaluationSchema.parse(parseYaml(grok4FastRaw)),
 		EvaluationSchema.parse(parseYaml(hermes4Raw)),
 		EvaluationSchema.parse(parseYaml(magisterium1Raw))
 	];

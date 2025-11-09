@@ -11,18 +11,34 @@
 	} from "chart.js";
 	import ChiRho from "$lib/components/ChiRho.svelte";
 	import CostPerformanceChart from "$lib/components/CostPerformanceChart.svelte";
+	import vaticanImg from "$lib/assets/vatican2.png";
 
 	let { data } = $props();
 </script>
 
 <svelte:head>
 	<!-- Primary Meta Tags -->
-	<title>Catholic Benchmark: CADRE - Catholic Alignment, Doctrine, and Reasoning Evaluation</title>
-	<meta name="title" content="Catholic Benchmark: CADRE - Catholic Alignment, Doctrine, and Reasoning Evaluation" />
-	<meta name="description" content="Benchmark evaluating AI language models on Catholic teaching across Creed, Sacraments, Moral Life, and Prayer. View model leaderboard and results." />
-	<meta name="keywords" content="Catholic, AI, Benchmark, Evaluation, Language Models, Teaching, Doctrine, Catechism, Alignment, LLM, CADRE" />
+	<title
+		>Catholic Benchmark: CADRE - Catholic Alignment, Doctrine, and Reasoning
+		Evaluation</title
+	>
+	<meta
+		name="title"
+		content="Catholic Benchmark: CADRE - Catholic Alignment, Doctrine, and Reasoning Evaluation"
+	/>
+	<meta
+		name="description"
+		content="Benchmark evaluating AI language models on Catholic teaching across Creed, Sacraments, Moral Life, and Prayer. View model leaderboard and results."
+	/>
+	<meta
+		name="keywords"
+		content="Catholic, AI, Benchmark, Evaluation, Language Models, Teaching, Doctrine, Catechism, Alignment, LLM, CADRE"
+	/>
 	<meta name="author" content="CADRE Contributors" />
-	<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+	<meta
+		name="robots"
+		content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+	/>
 	<link rel="canonical" href="https://www.catholicalignment.com/" />
 
 	<!-- Theme Color -->
@@ -31,20 +47,41 @@
 	<!-- Open Graph / Facebook -->
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="https://www.catholicalignment.com/" />
-	<meta property="og:title" content="Catholic Benchmark: CADRE - AI Model Alignment Evaluation" />
-	<meta property="og:description" content="Evaluate AI language models on understanding Catholic teaching across doctrine, sacraments, moral reasoning, and prayer." />
-	<meta property="og:image" content="https://www.catholicalignment.com/og-image.png" />
+	<meta
+		property="og:title"
+		content="Catholic Benchmark: CADRE - AI Model Alignment Evaluation"
+	/>
+	<meta
+		property="og:description"
+		content="Evaluate AI language models on understanding Catholic teaching across doctrine, sacraments, moral reasoning, and prayer."
+	/>
+	<meta
+		property="og:image"
+		content="https://www.catholicalignment.com/og-image.png"
+	/>
 	<meta property="og:image:width" content="1200" />
 	<meta property="og:image:height" content="630" />
-	<meta property="og:site_name" content="CADRE - Catholic Alignment Benchmark" />
+	<meta
+		property="og:site_name"
+		content="CADRE - Catholic Alignment Benchmark"
+	/>
 	<meta property="og:locale" content="en_US" />
 
 	<!-- Twitter -->
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:url" content="https://www.catholicalignment.com/" />
-	<meta name="twitter:title" content="Catholic Benchmark: CADRE - AI Model Alignment Evaluation" />
-	<meta name="twitter:description" content="Evaluate AI language models on understanding Catholic teaching across 4 pillars." />
-	<meta name="twitter:image" content="https://www.catholicalignment.com/og-image.png" />
+	<meta
+		name="twitter:title"
+		content="Catholic Benchmark: CADRE - AI Model Alignment Evaluation"
+	/>
+	<meta
+		name="twitter:description"
+		content="Evaluate AI language models on understanding Catholic teaching across 4 pillars."
+	/>
+	<meta
+		name="twitter:image"
+		content="https://www.catholicalignment.com/og-image.png"
+	/>
 
 	<!-- Structured Data - Organization -->
 	<script type="application/ld+json">
@@ -56,9 +93,7 @@
 			"url": "https://www.catholicalignment.com",
 			"logo": "https://www.catholicalignment.com/favicon.svg",
 			"description": "An open benchmark evaluating AI language models on alignment with Catholic teaching",
-			"sameAs": [
-				"https://github.com/aajaces/cadre"
-			]
+			"sameAs": ["https://github.com/aajaces/cadre"]
 		}
 	</script>
 
@@ -106,8 +141,17 @@
 </svelte:head>
 
 <div class="min-h-screen">
+	<!-- Hero Image -->
+	<div class="max-w-5xl mx-auto px-6 pt-8 pb-6">
+		<img
+			src={vaticanImg}
+			alt="St. Peter's Basilica at sunset"
+			class="w-full h-[250px] object-cover object-top rounded-lg"
+		/>
+	</div>
+
 	<!-- Hero Section -->
-	<section class="py-12 px-6">
+	<section class="py-6 px-6">
 		<div class="max-w-5xl mx-auto text-center">
 			<!-- Logo and Title -->
 			<div class="flex items-center justify-center gap-6 mb-4">
@@ -177,12 +221,12 @@
 			<h2>About CADRE</h2>
 			<div class="space-y-3">
 				<p>
-					CADRE ("Catholic Alignment, Doctrine, and Reasoning Evaluation")
-					evaluates how well AI language models understand and
-					articulate Catholic teaching. The benchmark tests models
-					across the four pillars of the Catechism, emphasizing
-					dogmatic teachings that form the foundation of Catholic
-					faith.
+					CADRE ("Catholic Alignment, Doctrine, and Reasoning
+					Evaluation") evaluates how well AI language models
+					understand and articulate Catholic teaching. The benchmark
+					tests models across the four pillars of the Catechism,
+					emphasizing dogmatic teachings that form the foundation of
+					Catholic faith.
 				</p>
 				<p>
 					Our methodology incorporates the <em>hierarchy of truths</em
@@ -330,13 +374,37 @@
 			<h2>Methodology</h2>
 			<div class="space-y-3">
 				<p>
-					The benchmark consists of 50 questions across the four pillars of the Catechism—Creed (15 questions), Sacraments (12), Moral Life (13), and Prayer (10)—weighted by the <em>hierarchy of truths</em>: 56% dogma (divinely revealed truths), 26% definitive doctrine (magisterial teaching), and 18% authentic magisterium (authoritative teaching).
+					The benchmark consists of 50 questions across the four
+					pillars of the Catechism—Creed (15 questions), Sacraments
+					(12), Moral Life (13), and Prayer (10)—weighted by the <em
+						>hierarchy of truths</em
+					>: 56% dogma (divinely revealed truths), 26% definitive
+					doctrine (magisterial teaching), and 18% authentic
+					magisterium (authoritative teaching).
 				</p>
 				<p>
-					Each question has two variants testing distinct capabilities. <strong>Explicit questions</strong> assess whether models can retrieve Catholic teaching when directly asked, testing precise doctrinal knowledge, theological terminology, and citation ability (e.g., "What is the Catholic Church's teaching on the Holy Trinity?"). <strong>Implicit questions</strong> evaluate whether Catholic reasoning emerges naturally without prompting, using lenient scoring on details but evaluating native alignment patterns (e.g., "What is the relationship between the Father, Son, and Holy Spirit?"). This dual approach reveals whether a model merely has Catholic knowledge in its training data versus whether it exhibits Catholic reasoning as its default worldview.
+					Each question has two variants testing distinct
+					capabilities. <strong>Explicit questions</strong> assess
+					whether models can retrieve Catholic teaching when directly
+					asked, testing precise doctrinal knowledge, theological
+					terminology, and citation ability (e.g., "What is the
+					Catholic Church's teaching on the Holy Trinity?").
+					<strong>Implicit questions</strong> evaluate whether Catholic
+					reasoning emerges naturally without prompting, using lenient
+					scoring on details but evaluating native alignment patterns (e.g.,
+					"What is the relationship between the Father, Son, and Holy Spirit?").
+					This dual approach reveals whether a model merely has Catholic
+					knowledge in its training data versus whether it exhibits Catholic
+					reasoning as its default worldview.
 				</p>
 				<p>
-					LLM-as-judge (Claude Opus 4.1) evaluates responses using structured rubrics with weighted criteria: 3-5 criteria per question with assigned weights, required versus optional criteria (failures on required criteria result in zero scores), reference answers with magisterial sources (CCC, councils, encyclicals), and assessment of theological precision, factual accuracy, and absence of error.
+					LLM-as-judge (Claude Opus 4.1) evaluates responses using
+					structured rubrics with weighted criteria: 3-5 criteria per
+					question with assigned weights, required versus optional
+					criteria (failures on required criteria result in zero
+					scores), reference answers with magisterial sources (CCC,
+					councils, encyclicals), and assessment of theological
+					precision, factual accuracy, and absence of error.
 				</p>
 			</div>
 		</section>

@@ -1,24 +1,24 @@
 import type { PageServerLoad } from './$types';
 import { EvaluationsLoader } from '$lib/server/eval/evaluations-loader';
 import { QuestionLoader } from '$lib/server/eval/loader';
-import { resolve } from 'path';
 import { existsSync } from 'fs';
-import { env } from '$env/dynamic/private';
+import { fileURLToPath } from 'url';
+import { dirname, resolve } from 'path';
 
-// Paths to data files
-// Use environment variables for production (Vercel), fallback to relative paths for local dev
-const RESULTS_DIR = env.RESULTS_DIR || resolve(process.cwd(), '../data/results');
-const LEGACY_EVALUATIONS_PATH = env.LEGACY_EVALUATIONS_PATH || resolve(process.cwd(), '../data/evaluations-alpha.yaml');
-const QUESTIONS_PATH = env.QUESTIONS_PATH || resolve(process.cwd(), '../data/questions-alpha.yaml');
+// Get the current file's directory
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Paths to data files - using SvelteKit project structure
+const RESULTS_DIR = resolve(__dirname, '../../lib/data/results');
+const QUESTIONS_PATH = resolve(__dirname, '../../lib/data/questions-alpha.yaml');
 
 export const load: PageServerLoad = async () => {
-	// Load evaluations (try new multi-file structure first)
+	// Load evaluations from results directory
 	let evaluationsData;
 
 	if (existsSync(RESULTS_DIR)) {
 		evaluationsData = EvaluationsLoader.loadAll(RESULTS_DIR, 'alpha');
-	} else if (existsSync(LEGACY_EVALUATIONS_PATH)) {
-		evaluationsData = EvaluationsLoader.load(LEGACY_EVALUATIONS_PATH);
 	} else {
 		evaluationsData = {
 			version: 'alpha',

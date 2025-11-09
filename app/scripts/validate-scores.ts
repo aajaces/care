@@ -46,8 +46,8 @@ async function main() {
 
 	try {
 		// Paths
-		const scoresPath = resolve(__dirname, `../../data/scores-${version}.yaml`);
-		const resultsDir = resolve(__dirname, '../../data/results');
+		const scoresPath = resolve(__dirname, `../src/lib/data/scores-${version}.yaml`);
+		const resultsDir = resolve(__dirname, '../src/lib/data/results');
 
 		// Check files exist
 		if (!existsSync(scoresPath)) {

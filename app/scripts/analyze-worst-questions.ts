@@ -30,7 +30,7 @@ async function main() {
 	const numResults = parseInt(args[2] || '5');
 
 	const filename = `${modelSlug}-${version}.yaml`;
-	const filepath = resolve(__dirname, '../../data/results', filename);
+	const filepath = resolve(__dirname, '../src/lib/data/results', filename);
 
 	console.log(`\nAnalyzing worst questions for: ${modelSlug}`);
 	console.log('='.repeat(70));

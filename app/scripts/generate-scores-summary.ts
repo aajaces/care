@@ -79,8 +79,8 @@ async function main() {
 
 	try {
 		// Paths
-		const resultsDir = resolve(__dirname, '../../data/results');
-		const outputPath = resolve(__dirname, `../../data/scores-${version}.yaml`);
+		const resultsDir = resolve(__dirname, '../src/lib/data/results');
+		const outputPath = resolve(__dirname, `../src/lib/data/scores-${version}.yaml`);
 
 		if (!existsSync(resultsDir)) {
 			console.error(`❌ Results directory not found: ${resultsDir}`);

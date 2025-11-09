@@ -96,7 +96,7 @@ async function main() {
 
 	try {
 		// Load questions from YAML (source of truth for question metadata)
-		const questionsPath = resolve(__dirname, `../../data/questions-${version}.yaml`);
+		const questionsPath = resolve(__dirname, `../src/lib/data/questions-${version}.yaml`);
 		console.log(`Loading questions from: ${questionsPath}`);
 		const allQuestions = QuestionLoader.load(questionsPath);
 		console.log(`✓ Loaded ${allQuestions.length} questions\n`);
@@ -239,7 +239,7 @@ async function main() {
 			// Create filename slug
 			const modelSlug = run.modelName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
 			const filename = `${modelSlug}-${version}.yaml`;
-			const outputPath = resolve(__dirname, '../../data/results', filename);
+			const outputPath = resolve(__dirname, '../src/lib/data/results', filename);
 
 			// Convert to YAML
 			const yamlContent = stringify(evaluation, {

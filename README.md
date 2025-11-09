@@ -31,32 +31,35 @@ This repository contains both the benchmark dataset and the evaluation platform:
 
 ```
 cadre/
-├── data/
-│   ├── questions-alpha.yaml      # Benchmark questions (alpha version)
-│   ├── scores-alpha.yaml         # Lightweight scores summary (auto-generated)
-│   └── results/                  # Evaluation results (one file per model)
-│       ├── gpt-4-turbo-alpha.yaml
-│       ├── claude-sonnet-4.5-alpha.yaml
-│       └── {model-slug}-{version}.yaml
 └── app/                          # SvelteKit web application
-    ├── src/                      # Website + leaderboard
-    ├── scripts/                  # Evaluation & export CLI
-    └── ...
+    ├── src/
+    │   ├── lib/
+    │   │   └── data/             # Benchmark data (source of truth)
+    │   │       ├── questions-alpha.yaml      # Benchmark questions
+    │   │       ├── scores-alpha.yaml         # Scores summary (auto-generated)
+    │   │       ├── costs.yaml                # Model cost data
+    │   │       └── results/                  # Evaluation results (one file per model)
+    │   │           ├── gpt-4-turbo-alpha.yaml
+    │   │           ├── claude-sonnet-4.5-alpha.yaml
+    │   │           └── {model-slug}-{version}.yaml
+    │   ├── routes/               # Website pages
+    │   └── ...
+    └── scripts/                  # Evaluation & export CLI
 ```
 
 ### Data Files (Source of Truth)
 
-- **`data/questions-alpha.yaml`**: The benchmark dataset containing questions across all four pillars
-- **`data/scores-alpha.yaml`**: Lightweight scores summary for fast leaderboard loading
+- **`app/src/lib/data/questions-alpha.yaml`**: The benchmark dataset containing questions across all four pillars
+- **`app/src/lib/data/scores-alpha.yaml`**: Lightweight scores summary for fast leaderboard loading
   - Auto-generated from result files via `pnpm scores-summary`
   - Contains rankings, aggregate scores, and pillar breakdowns
   - Optimized for performance (3-8x faster than parsing full results)
-- **`data/results/*.yaml`**: Official evaluation results, one file per model evaluation
+- **`app/src/lib/data/results/*.yaml`**: Official evaluation results, one file per model evaluation
   - Naming convention: `{model-slug}-{version}.yaml` (e.g., `gpt-4-turbo-alpha.yaml`)
   - Each file contains complete results including scores, responses, and judge reasoning
   - Independent files enable parallel contributions and clean PR workflows
 
-These YAML files are the **source of truth** for the public benchmark. The website reads directly from these files, making the leaderboard transparent and version-controlled.
+These YAML files are the **source of truth** for the public benchmark. The website reads directly from these files (bundled in the build), making the leaderboard transparent and version-controlled.
 
 ### App (Evaluation Platform + Website)
 
@@ -148,7 +151,7 @@ pnpm eval --resume <eval-run-id> --model magisterium-1
 ```
 
 The evaluation will:
-1. Load questions from `data/questions-alpha.yaml`
+1. Load questions from `app/src/lib/data/questions-alpha.yaml`
 2. Run the model on each question (explicit + implicit variants)
 3. Use Claude Opus 4.1 to judge responses
 4. Save results to the local database with version metadata
@@ -196,7 +199,7 @@ After running evaluations locally:
    pnpm export --version alpha --model gpt-4-turbo
    ```
 
-   This creates files in `data/results/{model-slug}-{version}.yaml` with:
+   This creates files in `app/src/lib/data/results/{model-slug}-{version}.yaml` with:
    - Complete model responses and scores
    - Per-question results for explicit and implicit variants
    - Pillar-level and overall scores
@@ -208,7 +211,7 @@ After running evaluations locally:
    pnpm scores-summary --version alpha
    ```
 
-   This creates `data/scores-alpha.yaml` containing:
+   This creates `app/src/lib/data/scores-alpha.yaml` containing:
    - Lightweight model rankings and scores
    - Per-pillar breakdowns
    - Metadata and timestamps
@@ -229,14 +232,14 @@ After running evaluations locally:
 5. **Review exported files**:
    ```bash
    # Check the exported YAML files
-   ls -lh ../data/results/
-   cat ../data/results/gpt-4-turbo-alpha.yaml
-   cat ../data/scores-alpha.yaml
+   ls -lh app/src/lib/data/results/
+   cat app/src/lib/data/results/gpt-4-turbo-alpha.yaml
+   cat app/src/lib/data/scores-alpha.yaml
    ```
 
 6. **Commit and push** to publish on the public leaderboard:
    ```bash
-   git add data/results/ data/scores-alpha.yaml
+   git add app/src/lib/data/
    git commit -m "Add evaluation results for [model-name]"
    git push
    ```
@@ -247,7 +250,7 @@ After running evaluations locally:
    ```
    This runs export + scores-summary + validate-scores in sequence.
 
-The public website automatically reads from `data/scores-alpha.yaml` (fast path) and falls back to `data/results/*.yaml` if needed.
+The public website automatically reads from `app/src/lib/data/scores-alpha.yaml` (fast path) and falls back to `app/src/lib/data/results/*.yaml` if needed. All data files are bundled into the SvelteKit build and deployed with the application.
 
 ## Architecture Philosophy
 

@@ -33,7 +33,7 @@ async function main() {
 	let modelName: string | undefined;
 	let runsPerQuestion: number | undefined;
 	let benchmarkVersion = 'alpha';
-	let questionsPath = resolve(__dirname, '../../data/questions-alpha.yaml');
+	let questionsPath = resolve(__dirname, '../src/lib/data/questions-alpha.yaml');
 	let timeoutMs = 300000; // Default 300s (5 minutes)
 	let resumeEvalRunId: string | undefined;
 
@@ -193,7 +193,7 @@ Options:
                           Default: alpha
 
   --questions <path>      Path to questions YAML file
-                          Default: ../../data/questions-alpha.yaml
+                          Default: ../src/lib/data/questions-alpha.yaml
 
   --timeout <seconds>     API request timeout in seconds
                           Default: 300 (5 minutes)

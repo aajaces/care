@@ -4,16 +4,18 @@ import { EvaluationsLoader } from '$lib/server/eval/evaluations-loader';
 import { ScoresLoader } from '$lib/server/eval/scores-loader';
 import { CostsLoader } from '$lib/server/eval/costs-loader';
 import { transformModelData } from '$lib/data/model-data';
-import { resolve } from 'path';
 import { existsSync } from 'fs';
-import { env } from '$env/dynamic/private';
+import { fileURLToPath } from 'url';
+import { dirname, resolve } from 'path';
 
-// Paths for evaluation results
-// Use environment variables for production (Vercel), fallback to relative paths for local dev
-const SCORES_SUMMARY_PATH = env.SCORES_SUMMARY_PATH || resolve(process.cwd(), '../data/scores-alpha.yaml');
-const COSTS_PATH = env.COSTS_PATH || resolve(process.cwd(), '../data/costs.yaml');
-const RESULTS_DIR = env.RESULTS_DIR || resolve(process.cwd(), '../data/results');
-const LEGACY_EVALUATIONS_PATH = env.LEGACY_EVALUATIONS_PATH || resolve(process.cwd(), '../data/evaluations-alpha.yaml');
+// Get the current file's directory
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Paths for evaluation results - using SvelteKit project structure
+const SCORES_SUMMARY_PATH = resolve(__dirname, '../lib/data/scores-alpha.yaml');
+const COSTS_PATH = resolve(__dirname, '../lib/data/costs.yaml');
+const RESULTS_DIR = resolve(__dirname, '../lib/data/results');
 
 export const load: PageServerLoad = async () => {
 	// Load leaderboard data from YAML files (source of truth for public leaderboard)
@@ -32,17 +34,14 @@ export const load: PageServerLoad = async () => {
 		}
 	}
 
-	// Fallback to full evaluation loading (backward compatible)
+	// Fallback to full evaluation loading
 	if (!leaderboard) {
 		console.log('⚠️  Falling back to full evaluation loading');
 		let evaluationsData;
 
 		if (existsSync(RESULTS_DIR)) {
-			// New structure: one file per model in results/ directory
+			// Load from results/ directory (one file per model)
 			evaluationsData = EvaluationsLoader.loadAll(RESULTS_DIR, 'alpha');
-		} else if (existsSync(LEGACY_EVALUATIONS_PATH)) {
-			// Legacy structure: single evaluations-alpha.yaml file
-			evaluationsData = EvaluationsLoader.load(LEGACY_EVALUATIONS_PATH);
 		} else {
 			// No evaluations found
 			evaluationsData = {

@@ -1,0 +1,116 @@
+# CADRE Scores Summary - alpha
+#
+# This file provides a lightweight summary of all evaluated models.
+# It's optimized for fast leaderboard loading without parsing full evaluation details.
+#
+# AUTO-GENERATED FILE - DO NOT EDIT MANUALLY
+# Generated at: 2025-11-09T20:06:34.483Z
+# Source files: 4 evaluation(s) from data/results/
+#
+# To regenerate this file:
+#   cd app && pnpm scores-summary --version alpha
+#
+# Full evaluation details available in: data/results/{model-slug}-alpha.yaml
+#
+
+"version": "alpha"
+"last_updated": "2025-11-09T18:50:51.870Z"
+"generated_at": "2025-11-09T20:06:34.480Z"
+"source_files_count": 4
+"leaderboard":
+  - "rank": 1
+    "model_id": "magisterium-1-alpha"
+    "name": "Magisterium 1"
+    "version": "magisterium-1"
+    "provider": "magisterium"
+    "tested_at": "2025-11-09T18:50:51.870Z"
+    "overall_score": 96.7
+    "weighted_score": 96.7
+    "consistency_score": 100
+    "pillar_scores":
+      "1":
+        "score": 99
+        "question_count": 30
+      "2":
+        "score": 95.42
+        "question_count": 24
+      "3":
+        "score": 94.23
+        "question_count": 26
+      "4":
+        "score": 98
+        "question_count": 20
+    "total_responses": 100
+    "result_file": "results/magisterium-1-alpha.yaml"
+  - "rank": 2
+    "model_id": "hermes-4-405b-alpha"
+    "name": "Hermes 4 405B"
+    "version": "hermes-4-405b"
+    "provider": "nousresearch"
+    "tested_at": "2025-11-09T16:32:52.511Z"
+    "overall_score": 77.46
+    "weighted_score": 77.46
+    "consistency_score": 69.48
+    "pillar_scores":
+      "1":
+        "score": 78.81
+        "question_count": 30
+      "2":
+        "score": 76.94
+        "question_count": 24
+      "3":
+        "score": 73.72
+        "question_count": 26
+      "4":
+        "score": 80.92
+        "question_count": 20
+    "total_responses": 100
+    "result_file": "results/hermes-4-405b-alpha.yaml"
+  - "rank": 3
+    "model_id": "claude-3-haiku-alpha"
+    "name": "Claude 3 Haiku"
+    "version": "claude-3-haiku"
+    "provider": "anthropic"
+    "tested_at": "2025-11-09T18:00:54.019Z"
+    "overall_score": 77.25
+    "weighted_score": 77.25
+    "consistency_score": 100
+    "pillar_scores":
+      "1":
+        "score": 76.37
+        "question_count": 30
+      "2":
+        "score": 82.79
+        "question_count": 24
+      "3":
+        "score": 69.67
+        "question_count": 26
+      "4":
+        "score": 81.75
+        "question_count": 20
+    "total_responses": 100
+    "result_file": "results/claude-3-haiku-alpha.yaml"
+  - "rank": 4
+    "model_id": "gpt-4-alpha"
+    "name": "GPT-4"
+    "version": "gpt-4"
+    "provider": "openai"
+    "tested_at": "2025-11-09T16:44:55.104Z"
+    "overall_score": 71.47
+    "weighted_score": 71.47
+    "consistency_score": 70.82
+    "pillar_scores":
+      "1":
+        "score": 71.03
+        "question_count": 30
+      "2":
+        "score": 73.37
+        "question_count": 24
+      "3":
+        "score": 64.7
+        "question_count": 26
+      "4":
+        "score": 78.63
+        "question_count": 20
+    "total_responses": 100
+    "result_file": "results/gpt-4-alpha.yaml"
